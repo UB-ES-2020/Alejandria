@@ -27,22 +27,24 @@ def book(request):  # TODO: this function is not linked to the frontend
     if request.method == 'GET' and request['']:
         try:
             req_book = get_object_or_404(Book, pk=request.GET['ISBN'])  # I get ISBN set in frontend form ajax
+            print(req_book)
         except(KeyError, Book.DoesNotExist):
             return render(request, 'search.html', {  # TODO: Provisional
                 'error_message': 'Alejandria can not find this book.'
             })
         else:
             return render(request, 'details.html', {'book': req_book})
-
+    """
     elif request.method == 'POST':
-        """
+        
         Here we can treat different situations,
             Is it an admin, who wants to add a book?
             Is it an editor?
             What information do we need?
-        """
+        
         # TODO: Treat POST methods to save new Books
-        return render(request, 'search.html', {'error_message': 'Not Implemented Yet'})  # TODO: Provisional
+    """
+        #return render(request, 'search.html', {'error_message': 'Not Implemented Yet'})  # TODO: Provisional
 
 
 # This one works in thory when using the url with the pk inside # TODO: The idea is to use something like that
@@ -55,6 +57,13 @@ def book_pk(request, pk):
 class BookView(generic.DetailView):
     model = Book
     template_name = 'details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        return context
+
+
 
     # TODO: Treat POST methods to add to cart, etc.
 
@@ -249,3 +258,4 @@ class LoginView(generic.TemplateView):
                 return redirect("/")
 
         return render(request,"login.html", {"form":form})
+

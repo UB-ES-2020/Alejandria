@@ -12,4 +12,6 @@ urlpatterns = [
     path('register/', views.RegisterView.register, name='register'),
     path('login/', views.LoginView.login, name='login'),
 
+    #path('details/<slug:pk>/', views.book_details, name='bookDetails'),
+
 ]
