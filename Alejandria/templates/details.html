@@ -27,7 +27,7 @@
 <!--    <link rel="stylesheet/less" type="text/css" href="styles.less" />-->
     <script src="//cdn.jsdelivr.net/npm/less" ></script>
 <!--    <link rel="stylesheet" href="{% static 'css/main.css' %}">-->
-    
+
 <!--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -64,12 +64,12 @@
      </div>-->
 
 <div style="margin-left: 200px; margin-top: 50px;">
-    <h1 style="color: white"> Título del libro </h1>
-    <h2 style="color: white"> de Autor Autorson </h2>
+    <h1 style="color: white"> {{ book.title }} </h1>
+    <h2 style="color: white"> de {{ book.authors }} </h2>
     <div style="margin-right: 300px ">
         <img src="https://imagessl6.casadellibro.com/a/l/t5/16/9788490667316.jpg" style="float: left; height:400px; margin-top:20px">
         <p style="padding-top:10px; margin-left: 350px; margin-bottom: 250px; color: white; text-align: justify; text-justify: inter-word;">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            {{ book.description }}
         </p>
         <form class="form-inline my-2 my-lg-0" style="float:right">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Añadir al carrito</button>

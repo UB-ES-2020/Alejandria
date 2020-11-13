@@ -58,8 +58,23 @@ class BookView(generic.DetailView):
 
     # TODO: Treat POST methods to add to cart, etc.
 
+    def post(self, request, *args, **kwargs):
+
+        if(request.isbn == '0123456789013'):
+            book = Book().objects.filter(isbn='0123456789013').first()
+            book.title = 'Harry Potter 2'
+
+
+        return JsonResponse(
+            {
+                'content': {
+                    'message': 'Su mensaje ha sido recibido',
+                }
+            }
+        )
+
     """
-      Right now im passing all the books, but in the next iteration 
+      Right now im passing all the books, but in the next iteration
       Ill only pass the necessary book info, required by POST during the search.
       #  TODO: Pass only necessary lists with get_queryset(self) and get_context_data()
       In this case I might use get_object().
@@ -86,7 +101,6 @@ class BookView(generic.DetailView):
                 return context
 
     """
-
 
 class HomeView(generic.ListView):
     template_name = 'home.html'
@@ -249,3 +263,21 @@ class LoginView(generic.TemplateView):
                 return redirect("/")
 
         return render(request,"login.html", {"form":form})
+
+
+def booksToJson(book):
+    return {
+        "ISBN": book.pk,
+        "user_id": book.user_id.id,
+        "title": book.title,
+        "description": book.description,
+        "saga": book.saga,
+        "price": book.price,
+        "language": book.language,
+        "genre": book.genre,
+        "publisher": book.publisher,
+        "num_pages": book.num_pages,
+        "num_sold": book.num_sold,
+        "recommended_age": book.recommended_age,
+        "thumbnail": book.thumbnail
+    }

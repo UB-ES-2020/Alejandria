@@ -46,7 +46,7 @@ class Book(models.Model):
     ISBN = models.CharField(primary_key=True, max_length=13, blank=False, null=False)  # Its a Char instead of Integer
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)  # Reference to the User that created it #TODO: on_delete=models.CASCADE
-    title = models.CharField(max_length=30, blank=False)
+    title = models.CharField(max_length=50, blank=False)
     description = models.TextField(max_length=500, blank=True, null=True)  # Synopsis
     saga = models.CharField(max_length=30, blank=True, null=True)
     authors = models.ManyToManyField(Author, max_length=10, blank=True, null=True,
@@ -65,6 +65,9 @@ class Book(models.Model):
                                        null=True)  # TODO: choices=<<possible range recommendation>> example: Juvenile
     # Path to thumbnail(Thubnail identified by ISBN)
     thumbnail = models.CharField(max_length=30)  # TODO:Should be blank=False in the Future
+
+    # The actual book file
+    ebook = models.FileField(upload_to='ebooks/', default=None)
 
     # pub_date = publication_date  # Abreviation
 
