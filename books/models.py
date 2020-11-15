@@ -80,6 +80,8 @@ class Book(models.Model):
     thumbnail = models.CharField(max_length=30)  # TODO:Should be blank=False in the Future
 
     # pub_date = publication_date  # Abreviation
+
+
 class Product(models.Model):
     ID = models.AutoField(primary_key=True)
     ISBN = models.ForeignKey(Book, on_delete=models.CASCADE, blank=False, null=False)
