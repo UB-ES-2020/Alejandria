@@ -22,7 +22,9 @@ SECRET_KEY = '56&@1#k_scqs8ymk&24hm@f4z=g!*5b#%_tgk)zmny(hh__-#d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['alejandria-es.herokuapp.com', '127.0.0.1', 'localhost']
+
+ALLOWED_HOSTS = ['alejandria-es.herokuapp.com', '127.0.0.1','localhost']
+
 
 # Application definition
 
@@ -89,8 +91,6 @@ if 'TRAVIS' in os.environ:
         }
     }
 elif 'HEROKU' in os.environ:
-    DEBUG = False
-    print("Remember, you are in the HEROKU database.")
     DATABASES = {
         'default': {
             # Se configura en el pgadmin del postgresql

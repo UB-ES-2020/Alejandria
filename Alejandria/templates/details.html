@@ -27,7 +27,7 @@
 <!--    <link rel="stylesheet/less" type="text/css" href="styles.less" />-->
     <script src="//cdn.jsdelivr.net/npm/less" ></script>
 <!--    <link rel="stylesheet" href="{% static 'css/main.css' %}">-->
-    
+
 <!--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -126,11 +126,10 @@
         </div>
 
         <img src="https://imagessl6.casadellibro.com/a/l/t5/16/9788490667316.jpg" style="float: left; height:400px; margin-top:20px">
-
-
         <p style="color: white; text-align: justify; text-justify: inter-word;">
             {{book.description}}
         </p>
+
     </div>
 
     <form class="form-inline my-2 my-lg-0" style="float:left; margin-left:75px">
@@ -138,6 +137,41 @@
     </form>
 </div>
 
+
+-->
+
+<!--
+{% if not book_owner %}
+<div style="margin-left: 200px; margin-right: 200px; margin-top: 350px; border-top: 1px solid gray; border-bottom: 1px solid gray">
+    {% if review_list %}
+        {% for review in review_list %}
+            <div style="color: white">
+                <p> {{ review.score }} / 5 </p>
+                <p> {{ review.text }} </p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="margin-top: 50px; margin-bottom: 50px; margin-left: 50px; color: white"> There are no reviews for this product. </p>
+    {% endif %}
+</div>
+
+{% else %}
+<div style="margin-left: 200px; margin-right: 200px; margin-top: 100px; border-top: 1px solid gray; border-bottom: 1px solid gray">
+    {% if review_list %}
+        {% for review in review_list %}
+            <div style="color: white">
+                <p> {{ review.score }} / 5 </p>
+                <p> {{ review.text }} </p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="margin-top: 50px; margin-bottom: 50px; margin-left: 50px; color: white"> There are no reviews for this product. </p>
+    {% endif %}
+</div>
+
+{% endif %}
+
+<h2 style="color:white; margin-top: 50px; margin-left: 25px;">Títols relacionats a la teva cerca...</h2>>
 -->
 
 
