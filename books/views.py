@@ -60,7 +60,13 @@ class BookView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
+        relation_book = Book.objects.filter(primary_genre=context['object'].primary_genre)[:20]
+
+        if relation_book:
+            context['book_relation'] = relation_book
+        else:
+            context['book_relation'] = Book.objects.all()[:20]
+
         return context
 
 

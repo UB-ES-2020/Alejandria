@@ -43,21 +43,35 @@ class Author(models.Model):
 
 
 class Book(models.Model):
+    GENRE_CHOICES = [
+        ('FANT', 'Fantasy'),
+        ('CRIM', 'Crime & Thriller'),
+        ('FICT', 'Fiction'),
+        ('SCFI', 'Science Fiction'),
+        ('HORR', 'Horror'),
+        ('ROMA', 'Romance'),
+        ('TEEN', 'Teen & Young Adult'),
+        ('KIDS', "Children's Books"),
+        ('ANIM', 'Anime & Manga'),
+        ('OTHR', 'Others'),
+    ]
+
     ISBN = models.CharField(primary_key=True, max_length=13, blank=False, null=False)  # Its a Char instead of Integer
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)  # Reference to the User that created it #TODO: on_delete=models.CASCADE
     title = models.CharField(max_length=30, blank=False)
     description = models.TextField(max_length=500, blank=True, null=True)  # Synopsis
     saga = models.CharField(max_length=30, blank=True, null=True)
-    authors = models.ManyToManyField(Author, max_length=10, blank=True, null=True,
-                                     default=None)  # Un llibre pot tenir més d'un autor.
+    # authors = models.ManyToManyField(Author, max_length=10, blank=True, null=True,
+    #                                  default=None)  # Un llibre pot tenir més d'un autor.
+    author = models.CharField(max_length=30, default="Anonymous")
     # Has to be datetime.date
     # By default it's now.
     publication_date = models.DateField(null=True, blank=True, default=timezone.now)
     price = models.DecimalField(decimal_places=2, max_digits=8)
     language = models.CharField(max_length=15, blank=False)  # TODO: Might have choices=<<languages it can be>>
-    genre = models.CharField(max_length=30,
-                             blank=False)  # TODO: choices=<<all possible genres>>, also can have multiple choices
+    primary_genre = models.CharField(max_length=4, choices=GENRE_CHOICES, default='OTHR')  # TODO: choices=<<all possible genres>>, also can have multiple choices
+    secondary_genre = models.CharField(max_length=4, choices=GENRE_CHOICES, null=True, blank=True)
     publisher = models.CharField(max_length=30)
     num_pages = models.IntegerField(blank=False)
     num_sold = models.IntegerField(default=0)
@@ -67,8 +81,6 @@ class Book(models.Model):
     thumbnail = models.CharField(max_length=30)  # TODO:Should be blank=False in the Future
 
     # pub_date = publication_date  # Abreviation
-
-
 class Product(models.Model):
     ID = models.AutoField(primary_key=True)
     ISBN = models.ForeignKey(Book, on_delete=models.CASCADE, blank=False, null=False)
