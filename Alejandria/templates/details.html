@@ -34,53 +34,93 @@
 </head>
 <body>
 
+<!--
+
+<div>
+
+<div class="container">
+    <div>
+        <h1 style="color: #dc3545"> {{book.title}} </h1>
+        <h3 style="color: white"> {{book.author}} </h3>
+        <h6 style="color:white"> Category: {{book.get_primary_genre_display }}, {{book.get_secondary_genre_display}} </h6>
+    </div>
+    <img src="https://imagessl6.casadellibro.com/a/l/t5/16/9788490667316.jpg" style="float: left; height:400px; margin-top:20px">
+
+</div>
+
+<div>
+
+    <p style="color: white; text-align: justify; text-justify: inter-word;">
+            {{book.description}}
+        </p>
+</div>
+
+
 
 
 
 </div>
+-->
+
+<div class="container" style="margin-top:3%; margin-left:7%;">
+  <div class="row">
+    <div class="col-12">
+        <h1 style="color: #dc3545"> {{book.title}} </h1>
+        <h3 style="color: white"> {{book.author}} </h3>
+        <h6 style="color:white"> Category: {{book.get_primary_genre_display }}, {{book.get_secondary_genre_display}} </h6>
+    </div>
+    <div class="col-4">
+      <img src="https://imagessl6.casadellibro.com/a/l/t5/16/9788490667316.jpg" style="float: left; height:400px; margin-top:20px">
+    </div>
+    <div class="col-8" style="margin-top:20px">
+        <h3 style="color: white"> Summary: </h3>
+        <p style="color:white">{{book.description}}</p>
+    </div>
+  </div>
+    <div class="row">
+        <div class="col-12">
+
+    <div style="margin-top: 2%; border-top: 1px solid gray; border-bottom: 1px solid gray">
+        <p style="margin-top: 50px; margin-bottom: 50px; margin-left: 50px; color: white"> There are no reviews for this product. </p>
+    </div>
+        </div>
+</div>
+
+</div>
+
+
+
+
 
 
 <!--
-    <div class="" style="text-align: center;margin-top:5%">
-      <button class="icon-btn add-btn">
-        <div class="add-icon"></div>
-        <div class="btn-txt">Add</div>
-      </button>
-    </div>
-    <div class="" style="text-align: center; margin-top: 8px;">
-      <button class="icon-btn add-btn">
-        <div class="btn-txt">Remove</div>
-      </button>
-    </div>
-    <div style="text-align: center; margin-top:30px;">
-      <hr class="main-hr" />
-      <button class="icon-btn add-btn">
-        <div class="add-icon"></div>
-        <div class="btn-txt">Add</div>
-      </button>
-      <button class="icon-btn add-btn">
-        <div class="btn-txt">Remove</div>
-      </button>
-     </div>-->
+
 
 <div style="margin-left: 200px; margin-top: 50px;">
-    <h1 style="color: #dc3545"> {{book.title}} </h1>
-    <h3 style="color: white"> {{book.author}} </h3>
-    <h6 style="color:white"> Category: {{book.get_primary_genre_display }}, {{book.get_secondary_genre_display}} </h6>
+    <div>
+        <div>
+            <h1 style="color: #dc3545"> {{book.title}} </h1>
+            <h3 style="color: white"> {{book.author}} </h3>
+            <h6 style="color:white"> Category: {{book.get_primary_genre_display }}, {{book.get_secondary_genre_display}} </h6>
+        </div>
+
         <img src="https://imagessl6.casadellibro.com/a/l/t5/16/9788490667316.jpg" style="float: left; height:400px; margin-top:20px">
-        <p style="padding-top:10px; margin-left: 350px; margin-bottom: 250px; color: white; text-align: justify; text-justify: inter-word;">
+
+
+        <p style="color: white; text-align: justify; text-justify: inter-word;">
             {{book.description}}
         </p>
-
-
-
-        <form class="form-inline my-2 my-lg-0" style="float:left; margin-left:75px">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to cart</button>
-        </form>
     </div>
+
+    <form class="form-inline my-2 my-lg-0" style="float:left; margin-left:75px">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to cart</button>
+    </form>
 </div>
 
-<h2 style="color:white; margin-top: 400px; margin-left: 25px;">Títols relacionats a la teva cerca...</h2>
+-->
+
+
+<!--<h2 style="color:white; margin-left: 25px;">Títols relacionats a la teva cerca...</h2>-->
 
 
 <div class="container-fluid">
