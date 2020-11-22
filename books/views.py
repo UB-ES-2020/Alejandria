@@ -24,6 +24,7 @@ NUM_COINCIDENT = 10
 NUM_RELATED = 5
 MONTHS_TO_CONSIDER_TOP_SELLER = 6
 
+
 #
 # def book(request):  # TODO: this function is not linked to the frontend
 #     if request.method == 'GET' and request['']:
@@ -61,15 +62,23 @@ class BookView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         relation_book = Book.objects.filter(primary_genre=context['object'].primary_genre)[:20]
+        review_list = Rating.objects.filter(book=context['object'])
+        product = Product.objects.filter(ISBN=context['object'], user=self.request.user).first()
 
         if relation_book:
             context['book_relation'] = relation_book
         else:
             context['book_relation'] = Book.objects.all()[:20]
 
+        if review_list:
+            context['review_list'] = review_list
+
+        if product:
+            context['owned'] = "true"
+        else:
+            context['owned'] = "false"
+
         return context
-
-
 
     # TODO: Treat POST methods to add to cart, etc.
 
@@ -102,6 +111,7 @@ class BookView(generic.DetailView):
 
     """
 
+
 class HomeView(generic.ListView):
     template_name = 'home.html'
     context_object_name = 'book_list'
@@ -116,14 +126,14 @@ class HomeView(generic.ListView):
 
         today = datetime.today()
         self.user_id = self.request.user.id or None
-        #return Book.objects.all() # TODO: Replace with the one below when ready to test with a full database.
+        # return Book.objects.all() # TODO: Replace with the one below when ready to test with a full database.
         return Book.objects.order_by('-num_sold')[:20]
-        #.filter(publication_date__range=[str(today)[:10],str(today - timedelta(days=30 * MONTHS_TO_CONSIDER_TOP_SELLER))[:10]])[:10]
+        # .filter(publication_date__range=[str(today)[:10],str(today - timedelta(days=30 * MONTHS_TO_CONSIDER_TOP_SELLER))[:10]])[:10]
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         today = datetime.today()
-        #context['new_books'] = Book.objects.filter(
+        # context['new_books'] = Book.objects.filter(
         #    publication_date__range=[str(today)[:10], str(today - timedelta(days=10))[:10]])[:10]
         context['fantasy'] = Book.objects.filter(primary_genre__contains="FANT")
         context['crime'] = Book.objects.filter(primary_genre__contains="CRIM")
@@ -186,7 +196,6 @@ class SearchView(generic.ListView):
                 context['book_relation'] = relation_book
                 return context
 
-
         if self.genres:
             filtered = Book.objects.filter(Q(primary_genre__in=self.genres) | Q(secondary_genre__in=self.genres))[:20]
             context['book_list'] = filtered
@@ -204,7 +213,7 @@ class SellView(generic.ListView):
     @staticmethod
     def add_book(request):
         if request.method == "POST":
-            #form = BookForm(request.POST)
+            # form = BookForm(request.POST)
             form = BookForm(request.POST, request.FILES)
             if form.is_valid():
                 print(request.FILES)
@@ -505,3 +514,23 @@ class PaymentView(generic.TemplateView):
     model = Book
     template_name = 'payment.html'
     queryset = Product.objects.all()
+
+
+def leave_review(request, **kwargs):
+    if request.method == 'POST':
+        if int(request.POST['score']) < 0 or int(request.POST['score']) > 5:
+            return JsonResponse({"error": "You must provide a valid score (between 0 and 5)."})
+        if len(request.POST['text']) > 500:
+            return JsonResponse({"error": "The maximum text length is 500 characters."})
+
+        book = Book.objects.filter(ISBN=request.POST['book']).first()
+        review = Rating(book=book,
+                        user_id=request.user,
+                        text=request.POST['text'],
+                        score=request.POST['score'])
+
+        review.save()
+        print("Your review was added successfully!")
+        return JsonResponse({"message": "Your review was added successfully!"})
+
+

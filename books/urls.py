@@ -20,5 +20,6 @@ urlpatterns = [
     path('sell/', views.SellView.add_book, name='sell'),
     path('forgot/', views.forgot, name='forgot'),
     path('forgot/<id>/', views.forgot, name='reset'),
+    path('review/', views.leave_review, name='review'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

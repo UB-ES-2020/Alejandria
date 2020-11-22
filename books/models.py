@@ -95,6 +95,7 @@ class Book(models.Model):
 class Product(models.Model):
     ID = models.AutoField(primary_key=True)
     ISBN = models.ForeignKey(Book, on_delete=models.CASCADE, blank=False, null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # TODO: What to do on_delete=?
     price = models.DecimalField(decimal_places=2, max_digits=8)
     # TODO: Could be in no.arange(0.00, 100.00, 0.01) -> To have percentages with 0.01 precision
@@ -106,7 +107,7 @@ class Product(models.Model):
 
 class Rating(models.Model):
     ID = models.AutoField(primary_key=True, blank=False, null=False)
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, null=False, blank=False)  # TODO: on_delete
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=False, blank=False)  # TODO: on_delete
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False,
                                 blank=False)  # TODO: on_delete
     text = models.TextField(max_length=500, null=False, blank=True)
