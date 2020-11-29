@@ -690,20 +690,39 @@ class EditorLibrary(PermissionRequiredMixin, generic.ListView):
 
 def leave_review(request, **kwargs):
     if request.method == 'POST':
-        if int(request.POST['score']) < 0 or int(request.POST['score']) > 5:
-            return JsonResponse({"error": "You must provide a valid score (between 0 and 5)."})
-        if len(request.POST['text']) > 500:
-            return JsonResponse({"error": "The maximum text length is 500 characters."})
+        if 'deleting' in request.POST:
+            review = Rating.objects.filter(ID=request.POST['review_id']).first()
+            if review:
+                review.delete()
+                return JsonResponse({"message": "Your review was deleted successfully!"})
+            else:
+                return JsonResponse({"error": "The provided review doesn't exist."})
 
-        book = Book.objects.filter(ISBN=request.POST['book']).first()
-        review = Rating(book=book,
-                        user_id=request.user,
-                        text=request.POST['text'],
-                        score=request.POST['score'])
+        elif 'modifying' in request.POST:
+            print("Your request is being modified...")
+            review = Rating.objects.filter(ID=request.POST['review_id']).first()
+            if review:
+                review.score = request.POST['score']
+                review.text = request.POST['text']
+                review.save()
+                return JsonResponse({"message": "Your review was modified successfully!"})
+            return JsonResponse({"error": "The provided review doesn't exist"})
 
-        review.save()
-        print("Your review was added successfully!")
-        return JsonResponse({"message": "Your review was added successfully!"})
+        elif 'adding' in request.POST:
+            if int(request.POST['score']) < 0 or int(request.POST['score']) > 5:
+                return JsonResponse({"error": "You must provide a valid score (between 0 and 5)."})
+            if len(request.POST['text']) > 500:
+                return JsonResponse({"error": "The maximum text length is 500 characters."})
+
+            book = Book.objects.filter(ISBN=request.POST['book']).first()
+            review = Rating(book=book,
+                            user_id=request.user,
+                            text=request.POST['text'],
+                            score=request.POST['score'])
+
+            review.save()
+            print("Your review was added successfully!")
+            return JsonResponse({"message": "Your review was added successfully!"})
 
 
 def view_profile(request):
