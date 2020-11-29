@@ -119,7 +119,7 @@
                         <p style="color: white; margin-left: 10px; margin-right: 65%"> {{ review.user_id.username }} </p>
                         <p style="color: white"> {{ review.date }} </p>
                     </div>
-                    <div class="main">
+                    <div class="main row">
                         {% if review.score == 0 %}
                             <i class="fa fa-star unchecked" id="one_review"></i>
                             <i class="fa fa-star unchecked" id="two_review"></i>
@@ -157,15 +157,21 @@
                             <i class="fa fa-star checked" id="four_review"></i>
                             <i class="fa fa-star checked" id="five_review"></i>
                         {% endif %}
+                        {% csrf_token %}
+                        {% if review.user_id.id == request.user.id %}
+                        <form class="form-group" id="delete-review-form" onsubmit="return onSubmitDeleteReview({{ review.ID }})">
+                            <button style="margin-left: 20px;" type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        {% endif %}
                     </div>
-                    <p style="color: white; margin-top: 10px; overflow-wrap: break-word"> {{ review.text }} </p>
+                    <div style="margin-left: 2px; margin-top: 15px" class="row">
+                        <p style="color: white; margin-top: 10px; overflow-wrap: break-word"> {{ review.text }} </p>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
             {% else %}
-            <div style="margin-top: 2%; border-top: 1px solid gray; border-bottom: 1px solid gray">
                 <p style="margin-top: 50px; margin-bottom: 50px; margin-left: 50px; color: #ffffff"> There are no reviews for this product. </p>
-            </div>
             {% endif %}
         </div>
     </div>
@@ -269,6 +275,7 @@
         formData.append('user_id', user_id);
         formData.append('text', document.getElementById('review-text-input').value);
         formData.append('score', rating);
+        formData.append('adding', "true");
 
         $.ajax({
             url: post_url,
@@ -292,6 +299,38 @@
 
         return false;
     });
+
+    function onSubmitDeleteReview(review_id){
+        console.log(review_id);
+        var post_url = '../../review/';
+
+        var form = $('#review-form')[0];
+        var formData = new FormData(form);
+        formData.append('review_id', review_id);
+        formData.append('deleting', "true");
+
+        $.ajax({
+            url: post_url,
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success:function(response){
+                console.log("success");
+                console.log(response.message);
+                alert(response.message);
+                window.location.reload();
+            },
+            error:function(response){
+                console.log("error");
+                console.log(response.responseJSON.message);
+                console.log(response.status);
+                alert(response.responseJSON.message);
+            }
+        });
+
+        return false;
+    }
 
 
 $(document).ready(function () {
